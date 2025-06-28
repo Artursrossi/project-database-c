@@ -3,11 +3,10 @@
 */
 
 #include <stdio.h>
-#include <stdlib.h>
 #include <stdint.h>
-#include <string.h>
 
 #include "menu.h"
+#include "database.h"
 
 static void display_main_menu(uint16_t *opt){
   printf("\n\nChoose a database table iteration \n");
@@ -29,19 +28,23 @@ static void handle_main_menu(){
     
     switch(opt){
       case OPT_CREATE:
-
+        handle_create_record();
         break;
       
       case OPT_UPDATE:
+        handle_update_record();
         break;
 
       case OPT_DELETE:
+        handle_delete_record();
         break;
 
       case OPT_FIND_UNIQUE:
+        handle_find_unique_record();
         break;
 
       case OPT_FIND_MANY:
+        handle_find_many_records();
         break;
     }
   }while(opt != OPT_QUIT);
