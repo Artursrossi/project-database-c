@@ -1,0 +1,22 @@
+# IDE/editor files
+.vscode/
+
+# Build artifacts
+build/
+database
+
+# Temporary files
+*.o
+*.out
+*.log
+*.tmp
+*.mem.o
+
+# Dependency and analysis files
+*.dSYM/
+*.gcno
+*.gcda
+
+# AddressSanitizer/Valgrind output
+leak.log
+asan.log
