@@ -8,9 +8,16 @@
 #include <stdbool.h>
 #include <stdint.h>
 
+#include "../../src/database.h"
+
 /* Constants */
+struct DL_Node_Data{
+  char name[USERNAME_LENGTH];
+  int32_t index;
+};
+typedef struct DL_Node_Data dl_node_data_t;
 struct DL_Node {
-  int32_t data;
+  dl_node_data_t data;
   struct DL_Node *next;
   struct DL_Node *prev;
 };
@@ -28,7 +35,7 @@ void doubly_linked_destroy();
  * 
  * @param data Value to be added
 */
-void doubly_linked_insert(int32_t data);
+void doubly_linked_insert(dl_node_data_t data);
 
 /**
  * @brief Remove element by value
@@ -37,21 +44,14 @@ void doubly_linked_insert(int32_t data);
  * 
  * @return True for removed, False for not found
 */
-bool doubly_linked_remove(int32_t data);
+bool doubly_linked_remove(char *name);
 
 /**
  * @brief Execute a function for each data of doubly linked list (for generic iteration)
  * 
  * @param iteration_fnc Pointer to a generic function that will receive each data of doubly linked list
 */
-void doubly_linked_iteration(void (*iteration_fnc)(int32_t));
-
-/**
- * @brief Returns the number of elements in doubly linked list
- * 
- * @return Number of elements in doubly linked list
-*/
-int32_t doubly_linked_length();
+void doubly_linked_iteration(void (*iteration_fnc)(dl_node_data_t));
 
 /**
  * @brief Reverse doubly linked list

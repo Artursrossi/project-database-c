@@ -4,12 +4,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "binary_tree.h"
 
 /* Variables */
 static bt_node_t *root = NULL;
-static int32_t length = 0;
 
 static void recursive_destroy(bt_node_t *node){
   if(node == NULL) return;
@@ -44,35 +44,11 @@ void binary_tree_destroy(){
   /* Free up memory space for root, and reset local variables */
   free(root);
   root = NULL;
-  length = 0;
 
   return;
 }
 
-int32_t binary_tree_length(){
-  return length;
-}
-
-int32_t recursive_height(bt_node_t *node) {
-  if (node == NULL) return 0;
-
-  /* Go deepest on the left and right side */
-  int32_t left_height = recursive_height(node->left);
-  int32_t right_height = recursive_height(node->right);
-
-  /* Get biggest height (comparison between left and right sides) */
-  int32_t biggest_height = left_height > right_height ? left_height : right_height;
-
-  return biggest_height + 1; // Tree level starts at 1
-}
-
-int32_t binary_tree_height() {
-  if (root == NULL) return 0;
-
-  return recursive_height(root);
-}
-
-static bt_node_t * create_node(int32_t data){
+static bt_node_t * create_node(bt_node_data_t data){
   /* Allocate memory space (in BYTES) for a Node of binary tree */
   bt_node_t *node = (bt_node_t *) malloc(sizeof(bt_node_t));
   if(node == NULL){
@@ -90,7 +66,7 @@ static bt_node_t * create_node(int32_t data){
 static void recursive_insert(bt_node_t *node, bt_node_t *new_node){
   if(new_node == NULL) return;
   
-  if(new_node->data > node->data){
+  if(strcmp(new_node->data.document, node->data.document) > 0){
     /* Insert new node on right */
     if(node->right == NULL){
       node->right = new_node;
@@ -101,7 +77,7 @@ static void recursive_insert(bt_node_t *node, bt_node_t *new_node){
     return recursive_insert(node->right, new_node);
   }
   
-  if(new_node->data <= node->data){
+  if(strcmp(new_node->data.document, node->data.document) <= 0){
     /* Insert new node on left */
     if(node->left == NULL) {
       node->left = new_node;
@@ -113,14 +89,13 @@ static void recursive_insert(bt_node_t *node, bt_node_t *new_node){
   }
 }
 
-bool binary_tree_insert(int32_t data){
+bool binary_tree_insert(bt_node_data_t data){
   /* Prevent duplicated value */
-  bool is_duplicated = binary_tree_search(data);
+  bool is_duplicated = binary_tree_search(data.document, NULL);
   if(is_duplicated) return false;
 
   /* Create new node */
   bt_node_t *new_node = create_node(data);
-  length++;
 
   /* Insert on the root */
   if(root == NULL){
@@ -133,35 +108,38 @@ bool binary_tree_insert(int32_t data){
   return true;
 }
 
-static bt_node_t * recursive_search(bt_node_t *node, int32_t data){
+static bt_node_t * recursive_search(bt_node_t *node, char *document){
   /* Item found, return node */
-  if(data == node->data) return node;
+  if(strcmp(document, node->data.document) == 0) return node;
 
-  if(data > node->data){
+  if(strcmp(document, node->data.document) > 0){
     /* Data not found on right */
     if(node->right == NULL) return NULL;
 
     /* Search deepest on right */
-    return recursive_search(node->right, data);
+    return recursive_search(node->right, document);
   }
 
-  if(data <= node->data){
+  if(strcmp(document, node->data.document) < 0){
     /* Data not found on left */
     if(node->left == NULL) return NULL;
 
     /* Search deepest on left */
-    return recursive_search(node->left, data);
+    return recursive_search(node->left, document);
   }
 
   return NULL;
 }
 
-bool binary_tree_search(int32_t data){
+bool binary_tree_search(char *document, bt_node_data_t *searched_value){
   if(root == NULL) return false;
 
-  bt_node_t *node = recursive_search(root, data);
+  bt_node_t *node = recursive_search(root, document);
   if(node == NULL) return false;
   
+  if(searched_value != NULL){
+    *searched_value = node->data;
+  }
   return true;
 }
 
@@ -183,16 +161,16 @@ static bt_node_t * get_sucessor(bt_node_t *node){
   return deepest_node;
 }
 
-static bt_node_t * recursive_remove(bt_node_t *node, int32_t data){
+static bt_node_t * recursive_remove(bt_node_t *node, char *document){
   if(node == NULL) return NULL;
 
   /* Go deepest on left and right sides, if the value does not match */
-  if (node->data > data) {
-    node->left = recursive_remove(node->left, data);
+  if (strcmp(node->data.document, document) > 0) {
+    node->left = recursive_remove(node->left, document);
     return node;
   }
-  if (node->data < data) {
-    node->right = recursive_remove(node->right, data);
+  if (strcmp(node->data.document, document) < 0) {
+    node->right = recursive_remove(node->right, document);
     return node;
   }
 
@@ -220,65 +198,21 @@ static bt_node_t * recursive_remove(bt_node_t *node, int32_t data){
   bt_node_t *sucessor = get_sucessor(node);
   if(sucessor != NULL){
     node->data = sucessor->data;
-    node->right = recursive_remove(node->right, sucessor->data);
+    node->right = recursive_remove(node->right, sucessor->data.document);
   }
 
   return node;
 }
 
-bool binary_tree_remove(int32_t data){
+bool binary_tree_remove(char *document){
   if(root == NULL) return false;
 
   /* Verify if value exists, and do not remove if does not exist */
-  bool is_founded = binary_tree_search(data);
+  bool is_founded = binary_tree_search(document, NULL);
   if(is_founded == false) return false;
 
   /* Delete node recursively */
-  root = recursive_remove(root, data);
-  length--;
+  root = recursive_remove(root, document);
 
   return true;
-}
-
-static void recursive_inorder(bt_node_t *node, bt_inorder_fnc_t cb) {
-  if(node == NULL) return;
-
-  /* Inorder order:
-    1. Left
-    2. Node
-    3. Right
-  */
-  recursive_inorder(node->left, cb);
-  cb(node->data);
-  recursive_inorder(node->right, cb);
-
-  return;
-}
-
-void binary_tree_inorder_iteration(bt_inorder_fnc_t cb){
-  if(root == NULL) return;
-
-  return recursive_inorder(root, cb);
-}
-
-static void recursive_reverse_inorder(bt_node_t *node, int32_t level, bt_reverse_inorder_fnc_t cb) {
-  if (node == NULL) return;
-
-  /* Reverse inorder order:
-    1. Right
-    2. Node
-    3. Left
-  */
-  recursive_reverse_inorder(node->right, level + 1, cb);
-  cb(node->data, level);
-  recursive_reverse_inorder(node->left, level + 1, cb);
-
-  return;
-}
-
-
-void binary_tree_reverse_inorder_iteration(bt_reverse_inorder_fnc_t cb){
-  if(root == NULL) return;
-
-  return recursive_reverse_inorder(root, 0, cb);
 }
