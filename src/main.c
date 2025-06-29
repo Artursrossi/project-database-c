@@ -3,9 +3,9 @@
 */
 
 #include "menu.h"
-#include "../includes/array_list/array_list.h"
-#include "../includes/doubly_linked_list/doubly_linked.h"
-#include "../includes/binary_tree/binary_tree.h"
+#include "data_structures/array_list/array_list.h"
+#include "data_structures/doubly_linked_list/doubly_linked.h"
+#include "data_structures/binary_tree/binary_tree.h"
 
 int main(void){
   array_init();

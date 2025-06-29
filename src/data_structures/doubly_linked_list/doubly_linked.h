@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../../src/database.h"
+#include "../../database.h"
 
 /* Constants */
 struct DL_Node_Data{

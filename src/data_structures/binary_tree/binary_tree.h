@@ -8,7 +8,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#include "../../src/database.h"
+#include "../../database.h"
 
 /* Constants */
 struct BT_Node_Data{
