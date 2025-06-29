@@ -23,7 +23,6 @@ struct User {
   char email[EMAIL_LENGTH];
   char phone[PHONE_LENGTH];
   char address[ADDRESS_LENGTH];
-  int32_t temp_id;
 };
 typedef struct User user_t;
 
