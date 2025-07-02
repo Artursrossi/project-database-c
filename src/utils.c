@@ -124,6 +124,58 @@ void prompt_user_email(char *email, bool skip_validation) {
   } while (!is_valid_email_format(email));
 }
 
+bool is_valid_phone_format(const char *phone) {
+  if (strlen(phone) != 15) return false;
+
+  /* Check format: (00) 00000-0000 */
+  for (int i = 0; i < 15; i++) {
+    if(i == 0){
+      if (phone[i] != '(') return false;
+      continue;
+    }
+
+    if(i == 3){
+      if (phone[i] != ')') return false;
+      continue;
+    }
+
+    /* Check */
+    if(i == 4){
+      if (phone[i] != ' ') return false;
+      continue;
+    }
+
+    /* Check hyphen */
+    if(i == 10){
+      if (phone[i] != '-') return false;
+      continue;
+    }
+
+    if (!isdigit((unsigned char)phone[i])) return false;
+  }
+
+  return true;
+}
+
+void prompt_user_phone(char *phone, bool skip_validation) {
+  do {
+    printf("Digit your phone (FORMAT: (00) 00000-0000): \n");
+
+    /* Get user phone */
+    if (fgets(phone, PHONE_LENGTH, stdin) == NULL) {
+      perror("Invalid stdin input on prompt_user_phone function. (utils.c) \n");
+      exit(EXIT_FAILURE);
+    }
+
+    /* Remove newline (Enter) from stdin */
+    phone[strcspn(phone, "\n")] = '\0';
+
+    /* Skip validations for Update Record function */
+    if(skip_validation && strcmp(phone, "\0") == 0) break;
+
+  } while (!is_valid_phone_format(phone));
+}
+
 void prompt_user_address(char *address, bool skip_validation) {
   do {
     printf("Digit your address: \n");

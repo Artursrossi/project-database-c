@@ -57,18 +57,10 @@ void handle_create_record(){
     return;
   }
 
-  /* Get user name */
+  /* Get user name, email, phone and address */
   prompt_user_name(user.name, false);
-
-  /* Get user email */
   prompt_user_email(user.email, false);
-
-  /* Get user phone */
-  printf("Digit your phone: \n");
-  fgets(user.phone, PHONE_LENGTH, stdin);
-  user.phone[strcspn(user.phone, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
-
-  /* Get user address */
+  prompt_user_phone(user.phone, false);
   prompt_user_address(user.address, false);
 
   /* Create the main record */
@@ -115,18 +107,10 @@ void handle_update_record(){
     return;
   }
 
-  /* Get user name */
+  /* Get user name, email, phone and address */
   prompt_user_name(new_user.name, true);
-  
-  /* Get user email */
   prompt_user_email(new_user.email, true);
-  
-  /* Get user phone */
-  printf("Digit your phone: \n");
-  fgets(new_user.phone, PHONE_LENGTH, stdin);
-  new_user.phone[strcspn(new_user.phone, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
-  
-  /* Get user address */
+  prompt_user_phone(new_user.phone, true);
   prompt_user_address(new_user.address, true);
   
   /* Recover current user information */
