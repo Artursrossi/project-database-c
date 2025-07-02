@@ -17,4 +17,6 @@ void prompt_user_name(char *name, bool skip_validation);
 bool is_valid_email_format(char *email);
 void prompt_user_email(char *email, bool skip_validation);
 
+void prompt_user_address(char *address, bool skip_validation);
+
 #endif // UTILS_H

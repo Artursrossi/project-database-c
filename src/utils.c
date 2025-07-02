@@ -123,3 +123,33 @@ void prompt_user_email(char *email, bool skip_validation) {
 
   } while (!is_valid_email_format(email));
 }
+
+void prompt_user_address(char *address, bool skip_validation) {
+  do {
+    printf("Digit your address: \n");
+
+    /* Get user address */
+    if (fgets(address, ADDRESS_LENGTH, stdin) == NULL) {
+      perror("Invalid stdin input on prompt_user_address function. (utils.c) \n");
+      exit(EXIT_FAILURE);
+    }
+
+    /* Remove newline (Enter) from stdin */
+    address[strcspn(address, "\n")] = '\0';
+
+    /* Skip validations for Update Record function */
+    if(skip_validation && strcmp(address, "\0") == 0) break;
+
+    if(strlen(address) < 4) {
+      printf("Your address must contain at least 4 characters. \n");
+      continue;
+    }
+
+    if (strlen(address) > 128) {
+      printf("Your address must have a maximum of 128 characters. \n");
+      continue;
+    }
+
+    break;
+  } while (1);
+}

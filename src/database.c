@@ -69,9 +69,7 @@ void handle_create_record(){
   user.phone[strcspn(user.phone, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
 
   /* Get user address */
-  printf("Digit your address: \n");
-  fgets(user.address, ADDRESS_LENGTH, stdin);
-  user.address[strcspn(user.address, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+  prompt_user_address(user.address, false);
 
   /* Create the main record */
   ARRAY_RES array_push_res = array_push(user, &user_array_list_index);
@@ -129,9 +127,7 @@ void handle_update_record(){
   new_user.phone[strcspn(new_user.phone, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
   
   /* Get user address */
-  printf("Digit your address: \n");
-  fgets(new_user.address, ADDRESS_LENGTH, stdin);
-  new_user.address[strcspn(new_user.address, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+  prompt_user_address(new_user.address, true);
   
   /* Recover current user information */
   array_get(bt_node_data.index, &current_user);
