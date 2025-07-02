@@ -48,7 +48,7 @@ void handle_create_record(){
   clear_buffer();
 
   /* Get user document */
-  prompt_document(user.document);
+  prompt_user_document(user.document);
 
   /* Verify if document is already in use */
   bool document_in_use = binary_tree_search(user.document, NULL);
@@ -58,9 +58,7 @@ void handle_create_record(){
   }
 
   /* Get user name */
-  printf("Digit your name: \n");
-  fgets(user.name, USERNAME_LENGTH, stdin);
-  user.name[strcspn(user.name, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+  prompt_user_name(user.name, false);
 
   /* Get user email */
   printf("Digit your email: \n");
@@ -112,7 +110,7 @@ void handle_update_record(){
   clear_buffer();
 
   /* Get user document */
-  prompt_document(new_user.document);
+  prompt_user_document(new_user.document);
 
   /* Verify if document is already in use */
   bool is_document_found = binary_tree_search(new_user.document, &bt_node_data);
@@ -122,9 +120,7 @@ void handle_update_record(){
   }
 
   /* Get user name */
-  printf("Digit your name: \n");
-  fgets(new_user.name, USERNAME_LENGTH, stdin);
-  new_user.name[strcspn(new_user.name, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+  prompt_user_name(new_user.name, true);
   
   /* Get user email */
   printf("Digit your email: \n");
@@ -178,7 +174,7 @@ void handle_delete_record(){
   clear_buffer();
 
   /* Get user document */
-  prompt_document(user.document);
+  prompt_user_document(user.document);
 
   /* Verify if document is already in use */
   bool is_document_found = binary_tree_search(user.document, &bt_node_data);
@@ -205,7 +201,7 @@ void handle_find_unique_record(){
   clear_buffer();
 
   /* Get user document */
-  prompt_document(user.document);
+  prompt_user_document(user.document);
   
   /* Verify if document is already in use */
   bool is_document_found = binary_tree_search(user.document, &temp_searched_data);

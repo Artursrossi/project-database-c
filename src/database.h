@@ -11,10 +11,10 @@
 /* Constants */
 enum{
   DOCUMENT_LENGTH = 16, // CPF: "000.000.000-00" + '\n' + '\0'
-  USERNAME_LENGTH = 64,
-  EMAIL_LENGTH = 48,
+  USERNAME_LENGTH = 66, // 64 Characters + '\n' + '\0'
+  EMAIL_LENGTH = 50, // 48 Characters + '\n' + '\0'
   PHONE_LENGTH = 17, // PHONE: "(00) 00000-0000" + '\n' + '\0'
-  ADDRESS_LENGTH  = 128
+  ADDRESS_LENGTH  = 130 // 128 Characters + '\n' + '\0'
 };
 
 struct User {

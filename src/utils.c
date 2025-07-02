@@ -37,18 +37,48 @@ bool is_valid_document_format(const char *document) {
   return true;
 }
 
-void prompt_document(char *document) {
+void prompt_user_document(char *document) {
   do {
-      printf("Digit your document (FORMAT: 000.000.000-00): \n");
+    printf("Digit your document (FORMAT: 000.000.000-00): \n");
 
-      /* Get user document */
-      if (fgets(document, DOCUMENT_LENGTH, stdin) == NULL) {
-        perror("Invalid stdin input on prompt_document function. (utils.h) \n");
-        exit(EXIT_FAILURE);
-      }
+    /* Get user document */
+    if (fgets(document, DOCUMENT_LENGTH, stdin) == NULL) {
+      perror("Invalid stdin input on prompt_user_document function. (utils.c) \n");
+      exit(EXIT_FAILURE);
+    }
 
-      /* Remove newline (Enter) from stdin */
-      document[strcspn(document, "\n")] = '\0';
+    /* Remove newline (Enter) from stdin */
+    document[strcspn(document, "\n")] = '\0';
 
   } while (!is_valid_document_format(document));
+}
+
+void prompt_user_name(char *name, bool skip_validation) {
+  do {
+    printf("Digit your full name: \n");
+
+    /* Get user name */
+    if (fgets(name, USERNAME_LENGTH, stdin) == NULL) {
+      perror("Invalid stdin input on prompt_user_name function. (utils.c) \n");
+      exit(EXIT_FAILURE);
+    }
+
+    /* Remove newline (Enter) from stdin */
+    name[strcspn(name, "\n")] = '\0';
+
+    /* Skip validations for Update Record function */
+    if(skip_validation && strcmp(name, "\0") == 0) break;
+
+    if(strlen(name) < 4) {
+      printf("Your name must contain at least 4 characters. \n");
+      continue;
+    }
+
+    if (strlen(name) > 64) {
+      printf("Your name must have a maximum of 64 characters. \n");
+      continue;
+    }
+
+    break;
+  } while (1);
 }
