@@ -82,3 +82,44 @@ void prompt_user_name(char *name, bool skip_validation) {
     break;
   } while (1);
 }
+
+bool is_valid_email_format(char *email) {
+  /* Email need to at least 4 characters */
+  if(strlen(email) < 4) {
+    printf("Your email must contain at least 4 characters. \n");
+    return false;
+  }
+
+  /* Email must have a maximum of 48 characters */
+  if (strlen(email) > 48) {
+    printf("Your email must have a maximum of 48 characters. \n");
+    return false;
+  }
+
+  /* Validate if email has @ */
+  for (int i = 0; email[i] != '\0'; i++) {
+    if (email[i] == '@') return true;
+  }
+
+  printf("Invalid email format. \n");
+  return false;
+}
+
+void prompt_user_email(char *email, bool skip_validation) {
+  do {
+    printf("Digit your email: \n");
+
+    /* Get user email */
+    if (fgets(email, EMAIL_LENGTH, stdin) == NULL) {
+      perror("Invalid stdin input on prompt_user_email function. (utils.c) \n");
+      exit(EXIT_FAILURE);
+    }
+
+    /* Remove newline (Enter) from stdin */
+    email[strcspn(email, "\n")] = '\0';
+
+    /* Skip validations for Update Record function */
+    if(skip_validation && strcmp(email, "\0") == 0) break;
+
+  } while (!is_valid_email_format(email));
+}

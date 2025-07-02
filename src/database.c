@@ -61,9 +61,7 @@ void handle_create_record(){
   prompt_user_name(user.name, false);
 
   /* Get user email */
-  printf("Digit your email: \n");
-  fgets(user.email, EMAIL_LENGTH, stdin);
-  user.email[strcspn(user.email, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+  prompt_user_email(user.email, false);
 
   /* Get user phone */
   printf("Digit your phone: \n");
@@ -123,9 +121,7 @@ void handle_update_record(){
   prompt_user_name(new_user.name, true);
   
   /* Get user email */
-  printf("Digit your email: \n");
-  fgets(new_user.email, EMAIL_LENGTH, stdin);
-  new_user.email[strcspn(new_user.email, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+  prompt_user_email(new_user.email, true);
   
   /* Get user phone */
   printf("Digit your phone: \n");
