@@ -10,11 +10,7 @@
 #include "data_structures/array_list/array_list.h"
 #include "data_structures/doubly_linked_list/doubly_linked.h"
 #include "data_structures/binary_tree/binary_tree.h"
-
-void clear_buffer(){
-  int c;
-  while ((c = getchar()) != '\n' && c != EOF);
-}
+#include "utils.h"
 
 void pretty_print_user(user_t user){
   printf("\n########## USER ##########\n");
@@ -48,11 +44,11 @@ void handle_create_record(){
   dl_node_data_t dl_node_data = {0};
   int32_t user_array_list_index = -1;
 
-  /* Get user document */
+  /* Flush stdin */
   clear_buffer();
-  printf("Digit your document (FORMAT: 000.000.000-00): \n");
-  fgets(user.document, DOCUMENT_LENGTH, stdin);
-  user.document[strcspn(user.document, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+
+  /* Get user document */
+  prompt_document(user.document);
 
   /* Verify if document is already in use */
   bool document_in_use = binary_tree_search(user.document, NULL);
@@ -61,22 +57,22 @@ void handle_create_record(){
     return;
   }
 
-  /* Get user document */
+  /* Get user name */
   printf("Digit your name: \n");
   fgets(user.name, USERNAME_LENGTH, stdin);
   user.name[strcspn(user.name, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
 
-  /* Get user document */
+  /* Get user email */
   printf("Digit your email: \n");
   fgets(user.email, EMAIL_LENGTH, stdin);
   user.email[strcspn(user.email, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
 
-  /* Get user document */
+  /* Get user phone */
   printf("Digit your phone: \n");
   fgets(user.phone, PHONE_LENGTH, stdin);
   user.phone[strcspn(user.phone, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
 
-  /* Get user document */
+  /* Get user address */
   printf("Digit your address: \n");
   fgets(user.address, ADDRESS_LENGTH, stdin);
   user.address[strcspn(user.address, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
@@ -112,11 +108,11 @@ void handle_update_record(){
   bt_node_data_t bt_node_data = {0};
   dl_node_data_t dl_node_data = {0};
 
-  /* Get user document */
+  /* Flush stdin */
   clear_buffer();
-  printf("Digit your document (FORMAT: 000.000.000-00): \n");
-  fgets(new_user.document, DOCUMENT_LENGTH, stdin);
-  new_user.document[strcspn(new_user.document, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+
+  /* Get user document */
+  prompt_document(new_user.document);
 
   /* Verify if document is already in use */
   bool is_document_found = binary_tree_search(new_user.document, &bt_node_data);
@@ -125,22 +121,22 @@ void handle_update_record(){
     return;
   }
 
-  /* Get user document */
+  /* Get user name */
   printf("Digit your name: \n");
   fgets(new_user.name, USERNAME_LENGTH, stdin);
   new_user.name[strcspn(new_user.name, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
   
-  /* Get user document */
+  /* Get user email */
   printf("Digit your email: \n");
   fgets(new_user.email, EMAIL_LENGTH, stdin);
   new_user.email[strcspn(new_user.email, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
   
-  /* Get user document */
+  /* Get user phone */
   printf("Digit your phone: \n");
   fgets(new_user.phone, PHONE_LENGTH, stdin);
   new_user.phone[strcspn(new_user.phone, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
   
-  /* Get user document */
+  /* Get user address */
   printf("Digit your address: \n");
   fgets(new_user.address, ADDRESS_LENGTH, stdin);
   new_user.address[strcspn(new_user.address, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
@@ -178,11 +174,11 @@ void handle_delete_record(){
   user_t user = {0};
   bt_node_data_t bt_node_data = {0};
 
-  /* Get user input */
+  /* Flush stdin */
   clear_buffer();
-  printf("Digit your document (FORMAT: 000.000.000-00): \n");
-  fgets(user.document, DOCUMENT_LENGTH, stdin);
-  user.document[strcspn(user.document, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+
+  /* Get user document */
+  prompt_document(user.document);
 
   /* Verify if document is already in use */
   bool is_document_found = binary_tree_search(user.document, &bt_node_data);
@@ -205,11 +201,11 @@ void handle_find_unique_record(){
   user_t user = {0};
   bt_node_data_t temp_searched_data = {0};
 
-  /* Get user input */
+  /* Flush stdin */
   clear_buffer();
-  printf("Digit your document (FORMAT: 000.000.000-00): \n");
-  fgets(user.document, DOCUMENT_LENGTH, stdin);
-  user.document[strcspn(user.document, "\n")] = '\0'; /* Remove newline (Enter) from stdin */
+
+  /* Get user document */
+  prompt_document(user.document);
   
   /* Verify if document is already in use */
   bool is_document_found = binary_tree_search(user.document, &temp_searched_data);
