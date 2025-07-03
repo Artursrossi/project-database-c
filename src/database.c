@@ -186,13 +186,16 @@ void handle_find_unique_record(){
     return;
   }
 
+  /* Recover user data */
   ARRAY_RES array_get_res = array_get(temp_searched_data.index, &user);
 
+  /* Verify if user data is ok */
   if(array_get_res != ARRAY_RES_OK) {
     printf("Error on doubly_linked_print_fnc function\n");
     return;
   }
 
+  /* Display user information */
   pretty_print_user(user);
 
   return;

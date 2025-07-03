@@ -28,10 +28,29 @@ typedef struct User user_t;
 
 /* Functions prototypes */
 
+/**
+ * @brief Create a new user record
+ */
 void handle_create_record();
+
+/**
+ * @brief Update an existing user record
+ */
 void handle_update_record();
+
+/**
+ * @brief Delete a user record by document
+ */
 void handle_delete_record();
+
+/**
+ * @brief Find and display a user by document
+ */
 void handle_find_unique_record();
+
+/**
+ * @brief Display all users
+ */
 void handle_find_many_records();
 
 #endif // DATABASE_H
