@@ -19,18 +19,19 @@ bool is_valid_document_format(const char *document) {
 
   /* Check format: 000.000.000-00 */ 
   for (int i = 0; i < 14; i++) {
-    /* Check dots location */
+    /* Check dots locations */
     if(i == 3 || i == 7){
       if (document[i] != '.') return false;
       continue;
     }
 
-    /* Check hyphen */
+    /* Check hyphen location */
     if (i == 11) {
       if (document[i] != '-') return false;
       continue;  
     } 
 
+    /* Check numbers locations */
     if(!isdigit((unsigned char)document[i])) return false;
   }
 
@@ -69,11 +70,13 @@ void prompt_user_name(char *name, bool skip_validation) {
     /* Skip validations for Update Record function */
     if(skip_validation && strcmp(name, "\0") == 0) break;
 
+    /* Validate if name contain at least 4 characters */
     if(strlen(name) < 4) {
       printf("Your name must contain at least 4 characters. \n");
       continue;
     }
 
+    /* Validate if name have a maximum of 64 characters */
     if (strlen(name) > 64) {
       printf("Your name must have a maximum of 64 characters. \n");
       continue;
@@ -129,28 +132,31 @@ bool is_valid_phone_format(const char *phone) {
 
   /* Check format: (00) 00000-0000 */
   for (int i = 0; i < 15; i++) {
+    /* Check parenthesis location */
     if(i == 0){
       if (phone[i] != '(') return false;
       continue;
     }
 
+    /* Check parenthesis location */
     if(i == 3){
       if (phone[i] != ')') return false;
       continue;
     }
 
-    /* Check */
+    /* Check space location */
     if(i == 4){
       if (phone[i] != ' ') return false;
       continue;
     }
 
-    /* Check hyphen */
+    /* Check hyphen location */
     if(i == 10){
       if (phone[i] != '-') return false;
       continue;
     }
 
+    /* Check numbers locations */
     if (!isdigit((unsigned char)phone[i])) return false;
   }
 
